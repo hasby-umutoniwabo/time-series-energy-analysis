@@ -21,32 +21,30 @@ A complete time series data analysis and forecasting project using the AEP Hourl
 | Member 3 | Task 3: Flask REST API with CRUD endpoints |
 | Member 4 | Task 4: Prediction and forecast script |
 
-## Task 1: EDA and Modeling
+## How to Run the Full Project
 
-Open `task1_eda/task1_eda.ipynb` in Google Colab. The notebook runs without downloading any files. It covers time range analysis, missing value handling, statistical distribution, 5 analytical questions including lag features and moving averages, and Random Forest model training with 2 experiments.
+Follow these steps in order to run everything from scratch.
 
-| Experiment | n_estimators | max_depth | MAE (MW) | RMSE (MW) | R2 Score |
-|---|---|---|---|---|---|
-| Experiment 1 Baseline | 50 | 10 | 219.10 | 291.76 | 0.9858 |
-| Experiment 2 Tuned | 200 | 20 | 146.82 | 201.24 | 0.9932 |
+### Step 1: Clone the repository
 
-## Task 2: Database Design
+```bash
+git clone https://github.com/hasby-umutoniwabo/time-series-energy-analysis.git
+cd time-series-energy-analysis
+```
 
-### MySQL Setup
+### Step 2: Run Task 1 (EDA and Modeling)
+
+Open `task1_eda/task1_eda.ipynb` in Google Colab and run all cells from top to bottom. No file downloads needed.
+
+### Step 3: Set up the MySQL database
+
+Make sure MySQL is installed and running on your machine, then run:
 
 ```bash
 sudo mysql -u root < task2_databases/schema.sql
 ```
 
-Three tables are created: `regions`, `time_dimension`, and `energy_readings`. See `task2_databases/erd.md` for the ERD.
-
-### MongoDB
-
-Hosted on MongoDB Atlas free tier. See `task2_databases/mongo_design.md` for the collection structure and sample documents.
-
-## Task 3: REST API
-
-### Setup
+### Step 4: Set up and run the API
 
 ```bash
 cd task3_api
@@ -64,11 +62,46 @@ MYSQL_USER=root
 MYSQL_PASSWORD=
 MYSQL_DB=energy_consumption
 
-### Run
+Then start the API:
 
 ```bash
 python app.py
 ```
+
+The API runs on http://127.0.0.1:5000
+
+### Step 5: Run the prediction script
+
+Open a new terminal and run:
+
+```bash
+cd task4_prediction
+python3 -m venv venv
+source venv/bin/activate
+pip install requests pandas numpy scikit-learn
+python predict.py
+```
+
+## Task 1: EDA and Modeling
+
+Open `task1_eda/task1_eda.ipynb` in Google Colab. The notebook runs without downloading any files. It covers time range analysis, missing value handling, statistical distribution, 5 analytical questions including lag features and moving averages, and Random Forest model training with 2 experiments.
+
+| Experiment | n_estimators | max_depth | MAE (MW) | RMSE (MW) | R2 Score |
+|---|---|---|---|---|---|
+| Experiment 1 Baseline | 50 | 10 | 219.10 | 291.76 | 0.9858 |
+| Experiment 2 Tuned | 200 | 20 | 146.82 | 201.24 | 0.9932 |
+
+## Task 2: Database Design
+
+### MySQL
+
+Three tables are created: `regions`, `time_dimension`, and `energy_readings`. See `task2_databases/schema.sql` for the full schema and `task2_databases/erd.md` for the ERD.
+
+### MongoDB
+
+Hosted on MongoDB Atlas free tier. See `task2_databases/mongo_design.md` for the collection structure and sample documents.
+
+## Task 3: REST API
 
 ### Endpoints
 
@@ -88,23 +121,6 @@ python app.py
 | DELETE | /mongo/readings/datetime | Delete a MongoDB reading |
 
 ## Task 4: Prediction Script
-
-### Setup
-
-```bash
-cd task4_prediction
-python3 -m venv venv
-source venv/bin/activate
-pip install requests pandas numpy scikit-learn
-```
-
-### Run
-
-Make sure the API is running first, then:
-
-```bash
-python predict.py
-```
 
 ### Example Output
 
